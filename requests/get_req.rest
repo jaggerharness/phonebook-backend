@@ -1,3 +1,33 @@
-GET http://localhost:3001/
+GET http://localhost:3001/info
 ###
-GET http://localhost:3001/api/notes/
+GET http://localhost:3001/api/persons/
+###
+GET http://localhost:3001/api/persons/3
+###
+GET http://localhost:3001/api/persons/42
+###
+DELETE http://localhost:3001/api/persons/4
+###
+DELETE http://localhost:3001/api/persons/42
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Test User",
+    "number": "123-123-1234"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "number": "123-123-1234"
+}
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "Test User"
+}

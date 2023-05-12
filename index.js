@@ -7,7 +7,7 @@ const app = express();
 morgan.token('req-data', function (req, res) { return JSON.stringify(req.body) })
 
 app.use(express.json());
-app.use(express.static('build'))
+app.use(express.static('dist'))
 app.use(cors())
 app.use(morgan(function (tokens, req, res) {
   return [
@@ -65,7 +65,7 @@ app.delete("/api/persons/:id", (req, res) => {
 });
 
 app.post("/api/persons", (req, res) => {
-  const randomInt = Math.floor(Math.random() * 500000);
+  const id = Math.floor(Math.random() * 500000);
 
   if (!req.body.name || !req.body.number) {
     return res.status(400).json({
@@ -74,7 +74,7 @@ app.post("/api/persons", (req, res) => {
   }
 
   const newPersonData = req.body;
-  const newPerson = { randomInt, ...newPersonData };
+  const newPerson = { id, ...newPersonData };
 
   if (
     persons.find(

@@ -19,12 +19,19 @@ const phonebookSchema = new mongoose.Schema({
 
 const Person = mongoose.model("Person", phonebookSchema);
 
-const person = new Person({
-  name: "Test User",
-  number: "123-123-1234",
-});
+if (process.argv.length === 3) {
+  Person.find({}).then((result) => {
+    console.log(result);
+    mongoose.connection.close();
+  });
+} else {
+  const person = new Person({
+    name: process.argv[3],
+    number: process.argv[4],
+  });
 
-person.save().then((result) => {
-  console.log("person saved!");
-  mongoose.connection.close();
-});
+  person.save().then((result) => {
+    console.log(result);
+    mongoose.connection.close();
+  });
+}

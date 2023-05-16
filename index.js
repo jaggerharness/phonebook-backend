@@ -64,7 +64,6 @@ app.post("/api/persons", (req, res) => {
   });
 
   newPerson.save().then((savedPerson) => {
-    persons = persons.concat(savedPerson);
     res.json(savedPerson);
   });
 });

@@ -28,11 +28,8 @@ app.use(
   })
 );
 
-let persons = [];
-
 app.get("/api/persons", (req, res) => {
-  Person.find({}).then((personsDB) => {
-    persons = personsDB;
+  Person.find({}).then((persons) => {
     res.json(persons);
   });
 });
@@ -70,22 +67,13 @@ app.post("/api/persons", (req, res) => {
     persons = persons.concat(savedPerson);
     res.json(savedPerson);
   });
-
-  // Commenting until later
-  // if (
-  //   persons.find(
-  //     (person) => person.name.toLowerCase() === newPerson.name.toLowerCase()
-  //   )
-  // ) {
-  //   return res.status(400).json({
-  //     error: "person name must be unique",
-  //   });
-  // }
 });
 
 app.get("/info", (req, res) => {
-  res.send(`<div>Phonebook has info for ${persons.length} people
+  Person.find({}).then((persons) => {
+    res.send(`<div>Phonebook has info for ${persons.length} people
     <p>${Date()}</p></div>`);
+  });
 });
 
 const PORT = process.env.PORT || 3001;

@@ -33,3 +33,11 @@ content-type: application/json
 {
     "name": "Test User"
 }
+###
+POST http://localhost:3001/api/persons
+content-type: application/json
+
+{
+    "name": "a",
+    "number": "1"
+}

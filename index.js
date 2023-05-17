@@ -28,25 +28,13 @@ app.use(
   })
 );
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
-
-  if (error.name === "CastError") {
-    return response.status(400).send({ error: "malformatted id" });
-  }
-
-  next(error);
-};
-
-app.use(errorHandler);
-
 app.get("/api/persons", (req, res) => {
   Person.find({}).then((persons) => {
     res.json(persons);
   });
 });
 
-app.get("/api/persons/:id", (req, res) => {
+app.get("/api/persons/:id", (req, res, next) => {
   Person.findById(req.params.id)
     .then((person) => {
       if (person) {
@@ -55,8 +43,8 @@ app.get("/api/persons/:id", (req, res) => {
         res.status(404).send();
       }
     })
-    .catch((err) => {
-      res.status(400).send({ error: "malformatted id" });
+    .catch((error) => {
+      next(error);
     });
 });
 
@@ -104,6 +92,17 @@ app.get("/info", (req, res) => {
     <p>${Date()}</p></div>`);
   });
 });
+
+const errorHandler = (error, req, res, next) => {
+
+  if (error.name === "CastError") {
+    return res.status(400).send({ error: "malformatted id" });
+  }
+
+  next(error);
+};
+
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
